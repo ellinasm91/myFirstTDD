@@ -4,14 +4,10 @@ public class StringCalculator {
 
     public static int Add(String numbers) {
         int returnValue = 0;
-        String[] numbersArray = numbers.split(",");
-        if (numbersArray.length > 2)
-            throw new RuntimeException("Please use up to two numbers separated by comma");
-        else {
-            for (String number : numbersArray) {
-                if (number.isEmpty()) return 0;
-                returnValue += Integer.parseInt(number);
-            }
+        String[] numbersArray = numbers.split(",|\n");
+        for (String number : numbersArray) {
+            if (number.isEmpty()) return 0;
+            returnValue += Integer.parseInt(number);
         }
         return returnValue;
     }
