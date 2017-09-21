@@ -67,4 +67,15 @@ public class StringCalculatorTest {
         Assert.assertEquals(1 + 2 + 3 - 4, StringCalculator.Add("1,2\n3,-4"));
         Assert.assertEquals(6, StringCalculator.Add("1\n2,3"));
     }
+
+    /**
+     * Support different delimiters
+     * To change a delimiter, the beginning of the string will contain a separate line that looks like this: “//[delimiter]\n[numbers…]” for example “//;\n1;2” should return three where the default delimiter is ‘;’ .
+     * The first line is optional. All existing scenarios should still be supported
+     */
+    @Test
+    public final void whenInputContainsDelimiterDeclarationAndNumbersFollowingThenResultIsTheirSum() {
+        Assert.assertEquals(1 + 2, StringCalculator.Add("//;\n1;2"));
+        Assert.assertEquals(1 + 2, StringCalculator.Add("//:\n1:2\n"));
+    }
 }
