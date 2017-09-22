@@ -101,4 +101,12 @@ public class StringCalculatorTest {
         Assert.assertNotNull(exception);
         Assert.assertEquals("Negatives not allowed: [-2, -5, -6]", exception.getMessage());
     }
+
+    /**
+     * Numbers bigger than 1000 should be ignored, so adding 2 + 1001 = 2
+     */
+    @Test
+    public final void whenNumberBiggerThanOneThousandIsUsedItIsIgnored() {
+        Assert.assertEquals(2, StringCalculator.Add("2,1001"));
+    }
 }

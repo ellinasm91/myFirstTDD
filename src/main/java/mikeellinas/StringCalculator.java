@@ -27,9 +27,10 @@ public class StringCalculator {
                 negativeNumberFound = true;
                 negativeArray.add(parsedNumber);
             }
-            returnValue += parsedNumber;
+            if (parsedNumber < 1000)
+                returnValue += parsedNumber;
         }
-        if (negativeNumberFound) throw new RuntimeException("Negatives not allowed: "+negativeArray.toString());
+        if (negativeNumberFound) throw new RuntimeException("Negatives not allowed: " + negativeArray.toString());
         return returnValue;
     }
 
