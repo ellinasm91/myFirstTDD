@@ -109,4 +109,20 @@ public class StringCalculatorTest {
     public final void whenNumberBiggerThanOneThousandIsUsedItIsIgnored() {
         Assert.assertEquals(2, StringCalculator.Add("2,1001"));
     }
+
+    /**
+     * Delimiters can be of any length with the following format: “//[delimiter]\n” for example: “//[—]\n1—2—3” should return 6
+     */
+    @Test
+    public final void whenInputContainsDelimiterDeclarationOfAnyLengthAndNumbersFollowingThenResultIsTheirSum() {
+        Assert.assertEquals(6, StringCalculator.Add("//[—]\n1—2—3"));
+    }
+
+    /**
+     * Allow multiple delimiters like this: “//[delim1][delim2]\n” for example “//[-][%]\n1-2%3” should return 6.
+     */
+    @Test
+    public final void whenInputContainsMultipleDelimitersAndNumbersFollowingThenResultIsTheirSum() {
+        Assert.assertEquals(6, StringCalculator.Add("//[-]|[%]\n1-2%3"));
+    }
 }

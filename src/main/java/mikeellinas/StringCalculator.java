@@ -5,12 +5,14 @@ import java.util.ArrayList;
 public class StringCalculator {
 
     public static int Add(String numbers) {
-        String delimiter = ",";  // Default delimiter
+        String delimiter = "[,]";  // Default delimiter
         String remainingNumbers = numbers;
         if (numbers.startsWith("//")) {
             // "//[delimiter]\n[numbers…]” for example “//;\n1;2”
-            delimiter = numbers.substring(2, 3);
-            remainingNumbers = numbers.substring(4);
+            // "//[delimiter]\n” for example: “//[—]\n1—2—3” should return 6"
+            int indexOfDelimiterEndingCharacters = numbers.indexOf("\n");
+            delimiter = numbers.substring(2, indexOfDelimiterEndingCharacters);
+            remainingNumbers = numbers.substring(indexOfDelimiterEndingCharacters + 1);
         }
         return Add(remainingNumbers, delimiter + "|\n");
     }
@@ -26,8 +28,7 @@ public class StringCalculator {
             if (parsedNumber < 0) {
                 negativeNumberFound = true;
                 negativeArray.add(parsedNumber);
-            }
-            if (parsedNumber < 1000)
+            } else if (parsedNumber < 1000)
                 returnValue += parsedNumber;
         }
         if (negativeNumberFound) throw new RuntimeException("Negatives not allowed: " + negativeArray.toString());
