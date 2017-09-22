@@ -47,7 +47,7 @@ public class StringCalculatorTest {
     @Test
     public final void whenTwoNumbersUsedThenResultIsTheirSum() {
         Assert.assertEquals(1 + 2, StringCalculator.Add("1,2"));
-        Assert.assertEquals(-4 + 2, StringCalculator.Add("-4,2"));
+        Assert.assertEquals(4 + 2, StringCalculator.Add("4,2"));
     }
 
     /**
@@ -55,7 +55,7 @@ public class StringCalculatorTest {
      */
     @Test
     public final void whenManyNumbersUsedThenResultIsTheirSum() {
-        Assert.assertEquals(1 + 2 + 3 - 4, StringCalculator.Add("1,2,3,-4"));
+        Assert.assertEquals(1 + 2 + 3 + 4, StringCalculator.Add("1,2,3,4"));
     }
 
     /**
@@ -64,18 +64,41 @@ public class StringCalculatorTest {
      */
     @Test
     public final void whenNewLineisUsedBetweenNumbersThenResultIsTheirSum() {
-        Assert.assertEquals(1 + 2 + 3 - 4, StringCalculator.Add("1,2\n3,-4"));
+        Assert.assertEquals(1 + 2 + 3 + 4, StringCalculator.Add("1,2\n3,4"));
         Assert.assertEquals(6, StringCalculator.Add("1\n2,3"));
     }
 
     /**
      * Support different delimiters
-     * To change a delimiter, the beginning of the string will contain a separate line that looks like this: “//[delimiter]\n[numbers…]” for example “//;\n1;2” should return three where the default delimiter is ‘;’ .
+     * To change a delimiter, the beginning of the string will contain a separate line that looks like this:
+     * “//[delimiter]\n[numbers…]” for example “//;\n1;2” should return three where the default delimiter is ‘;’ .
      * The first line is optional. All existing scenarios should still be supported
      */
     @Test
     public final void whenInputContainsDelimiterDeclarationAndNumbersFollowingThenResultIsTheirSum() {
         Assert.assertEquals(1 + 2, StringCalculator.Add("//;\n1;2"));
         Assert.assertEquals(1 + 2, StringCalculator.Add("//:\n1:2\n"));
+    }
+
+    /**
+     * Calling Add with a negative number will throw an exception “negatives not allowed” – and the negative that was
+     * passed. If there are multiple negatives, show all of them in the exception message stop here
+     * if you are a beginner.
+     */
+    @Test(expected = RuntimeException.class)
+    public final void whenNegativeNumberIsUsedAnExceptionIsExpected() {
+        StringCalculator.Add("1,-2");
+    }
+
+    @Test
+    public final void whenNegativeNumbersAreUsedAnExceptionWithMessageContainingAllNegativesIsExpected() {
+        Exception exception = null;
+        try {
+            StringCalculator.Add("1,-2,3,-5,-6");
+        } catch (Exception e) {
+            exception = e;
+        }
+        Assert.assertNotNull(exception);
+        Assert.assertEquals("Negatives not allowed: [-2, -5, -6]", exception.getMessage());
     }
 }
